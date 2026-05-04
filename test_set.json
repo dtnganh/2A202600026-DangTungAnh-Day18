@@ -1,3 +1,58 @@
 [
-  {"question": "hihi cả nhà tự tạo testset bằng cơm nhé", "ground_truth": "Không kịp tạo luôn"},
+  {
+    "question": "Nghị định 13/2023/NĐ-CP quy định về vấn đề gì?",
+    "ground_truth": "Nghị định 13/2023/NĐ-CP quy định về bảo vệ dữ liệu cá nhân và trách nhiệm bảo vệ dữ liệu cá nhân của cơ quan, tổ chức, cá nhân có liên quan."
+  },
+  {
+    "question": "Dữ liệu cá nhân là gì theo Nghị định 13?",
+    "ground_truth": "Dữ liệu cá nhân là thông tin dưới dạng ký hiệu, chữ viết, chữ số, hình ảnh, âm thanh hoặc dạng tương tự trên môi trường điện tử gắn liền với một con người cụ thể hoặc giúp xác định một con người cụ thể."
+  },
+  {
+    "question": "Dữ liệu cá nhân cơ bản bao gồm những thông tin nào?",
+    "ground_truth": "Dữ liệu cá nhân cơ bản bao gồm các thông tin như họ tên, ngày tháng năm sinh, giới tính, nơi sinh, nơi thường trú, quốc tịch, hình ảnh cá nhân, số điện thoại, số định danh cá nhân và các thông tin định danh khác."
+  },
+  {
+    "question": "Dữ liệu cá nhân nhạy cảm là gì?",
+    "ground_truth": "Dữ liệu cá nhân nhạy cảm là dữ liệu cá nhân gắn liền với quyền riêng tư của cá nhân mà khi bị xâm phạm sẽ gây ảnh hưởng trực tiếp tới quyền và lợi ích hợp pháp của cá nhân."
+  },
+  {
+    "question": "Sự đồng ý của chủ thể dữ liệu là gì?",
+    "ground_truth": "Sự đồng ý của chủ thể dữ liệu là việc thể hiện rõ ràng, tự nguyện, khẳng định việc cho phép xử lý dữ liệu cá nhân của chủ thể dữ liệu."
+  },
+  {
+    "question": "Bên kiểm soát dữ liệu cá nhân là gì?",
+    "ground_truth": "Bên kiểm soát dữ liệu cá nhân là tổ chức, cá nhân quyết định mục đích và phương tiện xử lý dữ liệu cá nhân."
+  },
+  {
+    "question": "Điều 9 quy định chủ thể dữ liệu có những quyền nào?",
+    "ground_truth": "Điều 9 quy định các quyền của chủ thể dữ liệu như quyền được biết, quyền đồng ý, quyền truy cập, quyền rút lại sự đồng ý, quyền xóa dữ liệu, quyền hạn chế xử lý dữ liệu, quyền cung cấp dữ liệu, quyền phản đối xử lý dữ liệu, quyền khiếu nại, tố cáo, khởi kiện, quyền yêu cầu bồi thường thiệt hại và quyền tự bảo vệ."
+  },
+  {
+    "question": "Việc hạn chế xử lý dữ liệu được thực hiện trong bao lâu sau khi có yêu cầu?",
+    "ground_truth": "Việc hạn chế xử lý dữ liệu được thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu, trừ trường hợp luật có quy định khác."
+  },
+  {
+    "question": "Chuyển dữ liệu cá nhân ra nước ngoài theo Điều 25 cần lập hồ sơ gì?",
+    "ground_truth": "Bên chuyển dữ liệu ra nước ngoài cần lập Hồ sơ đánh giá tác động chuyển dữ liệu cá nhân ra nước ngoài."
+  },
+  {
+    "question": "Tên người nộp thuế trong tờ khai thuế GTGT là gì?",
+    "ground_truth": "Tên người nộp thuế là CÔNG TY CỔ PHẦN DHA SURFACES."
+  },
+  {
+    "question": "Mã số thuế của người nộp thuế trong tờ khai là bao nhiêu?",
+    "ground_truth": "Mã số thuế của người nộp thuế là 0106769437."
+  },
+  {
+    "question": "Kỳ tính thuế trong tờ khai GTGT là thời gian nào?",
+    "ground_truth": "Kỳ tính thuế trong tờ khai là Quý 4 năm 2024."
+  },
+  {
+    "question": "Giá trị hàng hóa, dịch vụ mua vào trong kỳ là bao nhiêu?",
+    "ground_truth": "Giá trị hàng hóa, dịch vụ mua vào trong kỳ là 2.405.743.401 đồng."
+  },
+  {
+    "question": "Thuế giá trị gia tăng còn phải nộp trong kỳ là bao nhiêu?",
+    "ground_truth": "Thuế giá trị gia tăng còn phải nộp trong kỳ là 52.133.830 đồng."
+  }
 ]

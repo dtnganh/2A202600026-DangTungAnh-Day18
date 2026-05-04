@@ -3,13 +3,17 @@
 import os, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
 
-from src.m1_chunking import load_documents, chunk_hierarchical
+from src.m1_chunking import load_documents, chunk_structure_aware
 from src.m2_search import HybridSearch
 from src.m3_rerank import CrossEncoderReranker
 from src.m4_eval import load_test_set, evaluate_ragas, failure_analysis, save_report
 from src.m5_enrichment import enrich_chunks
-from config import RERANK_TOP_K
+from src.progress import ProgressBar
+from config import OPENAI_API_KEY, OPENAI_MODEL, RERANK_TOP_K
 
 
 def build_pipeline():
@@ -19,24 +23,28 @@ def build_pipeline():
     print("=" * 60)
 
     # Step 1: Load & Chunk (M1)
-    print("\n[1/3] Chunking documents...")
+    print("\n[1/4] Chunking documents...")
     docs = load_documents()
     all_chunks = []
     for doc in docs:
-        parents, children = chunk_hierarchical(doc["text"], metadata=doc["metadata"])
-        for child in children:
-            all_chunks.append({"text": child.text, "metadata": {**child.metadata, "parent_id": child.parent_id}})
+        chunks = chunk_structure_aware(doc["text"], metadata=doc["metadata"])
+        for chunk in chunks:
+            all_chunks.append(
+                {
+                    "text": chunk.text,
+                    "metadata": {
+                        **chunk.metadata,
+                        "parent_text": chunk.text,
+                    },
+                }
+            )
     print(f"  {len(all_chunks)} chunks from {len(docs)} documents")
 
     # Step 2: Enrichment (M5)
     print("\n[2/4] Enriching chunks (M5)...")
     enriched = enrich_chunks(all_chunks, methods=["contextual", "hyqa", "metadata"])
-    if enriched:
-        # Use enriched text for indexing
-        all_chunks = [{"text": e.enriched_text, "metadata": e.auto_metadata} for e in enriched]
-        print(f"  Enriched {len(enriched)} chunks")
-    else:
-        print("  ⚠️  M5 not implemented — using raw chunks (fallback)")
+    all_chunks = [{"text": e.enriched_text, "metadata": e.auto_metadata} for e in enriched]
+    print(f"  Enriched {len(enriched)} chunks")
 
     # Step 3: Index (M2)
     print("\n[3/4] Indexing (BM25 + Dense)...")
@@ -55,34 +63,97 @@ def run_query(query: str, search: HybridSearch, reranker: CrossEncoderReranker) 
     results = search.search(query)
     docs = [{"text": r.text, "score": r.score, "metadata": r.metadata} for r in results]
     reranked = reranker.rerank(query, docs, top_k=RERANK_TOP_K)
-    contexts = [r.text for r in reranked] if reranked else [r.text for r in results[:3]]
+    if reranked:
+        contexts = [r.metadata.get("parent_text", r.text) for r in reranked]
+    else:
+        contexts = [r.metadata.get("parent_text", r.text) for r in results[:3]]
+    contexts = list(dict.fromkeys(contexts))
 
-    # TODO (nhóm): Replace with LLM generation for better scores
-    # from openai import OpenAI
-    # client = OpenAI()
-    # context_str = "\n\n".join(contexts)
-    # resp = client.chat.completions.create(model="gpt-4o-mini", messages=[
-    #     {"role": "system", "content": "Trả lời CHỈ dựa trên context. Nếu không có → nói 'Không tìm thấy.'"},
-    #     {"role": "user", "content": f"Context:\n{context_str}\n\nCâu hỏi: {query}"},
-    # ])
-    # answer = resp.choices[0].message.content
-    answer = contexts[0] if contexts else "Không tìm thấy thông tin."
+    answer = _generate_answer_openai(query, contexts)
     return answer, contexts
+
+
+def _generate_answer_openai(query: str, contexts: list[str]) -> str:
+    """Generate a grounded Vietnamese answer with OpenAI when configured."""
+    if not OPENAI_API_KEY:
+        raise RuntimeError("OPENAI_API_KEY is required for answer generation.")
+    if not contexts:
+        return "Không tìm thấy thông tin trong tài liệu."
+    from openai import OpenAI
+
+    client = OpenAI(api_key=OPENAI_API_KEY, timeout=60, max_retries=2)
+    context_str = "\n\n---\n\n".join(contexts[:3])[:7000]
+    response = client.chat.completions.create(
+        model=OPENAI_MODEL,
+        temperature=0.1,
+        max_tokens=220,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "Bạn là trợ lý RAG. Trả lời bằng tiếng Việt, ngắn gọn, chỉ dựa trên context. "
+                    "Nếu context không có thông tin, trả lời: Không tìm thấy thông tin trong tài liệu. "
+                    "Ưu tiên câu trả lời trực tiếp, số liệu và danh sách khi câu hỏi yêu cầu."
+                ),
+            },
+            {"role": "user", "content": f"Context:\n{context_str}\n\nCâu hỏi: {query}"},
+        ],
+    )
+    return (response.choices[0].message.content or "").strip()
+
+
+def _extract_answer(query: str, contexts: list[str]) -> str:
+    """Pick the most relevant sentence from retrieved contexts."""
+    if not contexts:
+        return "Không tìm thấy thông tin."
+
+    import re
+
+    query_terms = set(re.findall(r"[\wÀ-ỹ]+", query.lower(), flags=re.UNICODE))
+    sentences = []
+    for context in contexts:
+        for sentence in re.split(r"(?<=[.!?])\s+|\n+", context):
+            sentence = sentence.strip()
+            if sentence and not sentence.startswith("#"):
+                sentences.append(sentence)
+
+    def score(sentence: str) -> tuple[int, int]:
+        terms = set(re.findall(r"[\wÀ-ỹ]+", sentence.lower(), flags=re.UNICODE))
+        numeric_bonus = 2 if re.search(r"\d+", sentence) else 0
+        lower_query = query.lower()
+        lower_sentence = sentence.lower()
+        intent_bonus = 0
+        if "là gì" in lower_query and " là " in f" {lower_sentence} ":
+            intent_bonus += 3
+        if ("gồm" in lower_query or "ví dụ" in lower_query) and ("gồm" in lower_sentence or "ví dụ" in lower_sentence):
+            intent_bonus += 3
+        if "quyền" in lower_query and ("các quyền" in lower_sentence or "quyền được biết" in lower_sentence):
+            intent_bonus += 4
+        return (len(query_terms & terms) + numeric_bonus + intent_bonus, -len(sentence))
+
+    best = max(sentences, key=score, default=contexts[0])
+    return best
 
 
 def evaluate_pipeline(search: HybridSearch, reranker: CrossEncoderReranker):
     """Run evaluation on test set."""
     print("\n[Eval] Running queries...")
+    if OPENAI_API_KEY:
+        print(f"  OpenAI generation enabled: {OPENAI_MODEL}")
+    else:
+        raise RuntimeError("OPENAI_API_KEY is required; offline fallback is disabled.")
     test_set = load_test_set()
     questions, answers, all_contexts, ground_truths = [], [], [], []
+    progress = ProgressBar("  Eval queries", len(test_set))
 
     for i, item in enumerate(test_set):
+        progress.update(i, f"query {i + 1}/{len(test_set)}")
         answer, contexts = run_query(item["question"], search, reranker)
         questions.append(item["question"])
         answers.append(answer)
         all_contexts.append(contexts)
         ground_truths.append(item["ground_truth"])
-        print(f"  [{i+1}/{len(test_set)}] {item['question'][:50]}...")
+        progress.update(i + 1, f"query {i + 1}/{len(test_set)} done")
 
     print("\n[Eval] Running RAGAS...")
     results = evaluate_ragas(questions, answers, all_contexts, ground_truths)
@@ -92,7 +163,8 @@ def evaluate_pipeline(search: HybridSearch, reranker: CrossEncoderReranker):
     print("=" * 60)
     for m in ["faithfulness", "answer_relevancy", "context_precision", "context_recall"]:
         s = results.get(m, 0)
-        print(f"  {'✓' if s >= 0.75 else '✗'} {m}: {s:.4f}")
+        marker = "PASS" if s >= 0.75 else "LOW"
+        print(f"  [{marker}] {m}: {s:.4f}")
 
     failures = failure_analysis(results.get("per_question", []))
     save_report(results, failures)

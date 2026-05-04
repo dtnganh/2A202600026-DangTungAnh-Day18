@@ -8,6 +8,9 @@ load_dotenv()
 # --- API Keys ---
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 COHERE_API_KEY = os.getenv("COHERE_API_KEY", "")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+USE_OPENAI_ENRICHMENT = os.getenv("USE_OPENAI_ENRICHMENT", "1") == "1"
+OPENAI_ENRICH_BATCH_SIZE = int(os.getenv("OPENAI_ENRICH_BATCH_SIZE", "4"))
 
 # --- Qdrant ---
 QDRANT_HOST = "localhost"

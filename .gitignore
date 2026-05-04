@@ -1,8 +1,12 @@
 .env
+.venv/
 .DS_Store
 __pycache__/
 *.pyc
 .pytest_cache/
 qdrant_data/
 *.egg-info/
-reports/*.json
+data/.openai_ocr_cache/
+data/.openai_enrich_cache/
+todo.md
+tools/tessdata/

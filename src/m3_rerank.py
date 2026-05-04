@@ -1,10 +1,13 @@
-"""Module 3: Reranking — Cross-encoder top-20 → top-3 + latency benchmark."""
+"""Module 3: Reranking with OpenAI API."""
 
-import os, sys, time
+import json
+import os
+import sys
+import time
 from dataclasses import dataclass
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import RERANK_TOP_K
+from config import OPENAI_API_KEY, OPENAI_MODEL, RERANK_TOP_K
 
 
 @dataclass
@@ -17,56 +20,104 @@ class RerankResult:
 
 
 class CrossEncoderReranker:
-    def __init__(self, model_name: str = "BAAI/bge-reranker-v2-m3"):
+    """OpenAI-based reranker that selects the most relevant candidate indexes."""
+
+    def __init__(self, model_name: str = OPENAI_MODEL):
         self.model_name = model_name
-        self._model = None
+        self._client = None
 
     def _load_model(self):
-        if self._model is None:
-            # TODO: Load cross-encoder model
-            # Option A: from FlagEmbedding import FlagReranker
-            #           self._model = FlagReranker(self.model_name, use_fp16=True)
-            # Option B: from sentence_transformers import CrossEncoder
-            #           self._model = CrossEncoder(self.model_name)
-            pass
-        return self._model
+        if not OPENAI_API_KEY:
+            raise RuntimeError("OPENAI_API_KEY is required for OpenAI reranking.")
+        if self._client is None:
+            from openai import OpenAI
+
+            self._client = OpenAI(api_key=OPENAI_API_KEY, timeout=60, max_retries=2)
+        return self._client
 
     def rerank(self, query: str, documents: list[dict], top_k: int = RERANK_TOP_K) -> list[RerankResult]:
-        """Rerank documents: top-20 → top-k."""
-        # TODO: Implement reranking
-        # 1. model = self._load_model()
-        # 2. pairs = [(query, doc["text"]) for doc in documents]
-        # 3. scores = model.compute_score(pairs)  # FlagReranker
-        #    OR scores = model.predict(pairs)      # CrossEncoder
-        # 4. Combine: [(score, doc) for score, doc in zip(scores, documents)]
-        # 5. Sort by score descending
-        # 6. Return top_k RerankResult(text=..., original_score=doc["score"],
-        #                              rerank_score=score, metadata=doc["metadata"], rank=i)
-        return []
+        """Rerank documents with one OpenAI API call."""
+        if not documents:
+            return []
+
+        client = self._load_model()
+        candidates = [
+            {
+                "index": i,
+                "score": float(doc.get("score", 0.0)),
+                "text": doc.get("text", "")[:900],
+            }
+            for i, doc in enumerate(documents)
+        ]
+        response = client.chat.completions.create(
+            model=self.model_name,
+            temperature=0,
+            max_tokens=180,
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "Bạn là reranker cho hệ thống RAG tiếng Việt. "
+                        "Chọn các candidate trả lời câu hỏi tốt nhất. "
+                        'Chỉ trả về JSON array các object: [{"index": number, "score": number}], '
+                        "score từ 0 đến 1, sắp xếp giảm dần. Không thêm giải thích."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": json.dumps(
+                        {"query": query, "top_k": top_k, "candidates": candidates},
+                        ensure_ascii=False,
+                    ),
+                },
+            ],
+        )
+        content = (response.choices[0].message.content or "").strip()
+        start = content.find("[")
+        end = content.rfind("]") + 1
+        ranked_items = json.loads(content[start:end])
+        results = []
+        seen = set()
+        for rank, item in enumerate(ranked_items[:top_k], start=1):
+            index = int(item["index"])
+            if index < 0 or index >= len(documents) or index in seen:
+                continue
+            seen.add(index)
+            doc = documents[index]
+            results.append(
+                RerankResult(
+                    text=doc.get("text", ""),
+                    original_score=float(doc.get("score", 0.0)),
+                    rerank_score=float(item.get("score", 1.0 / rank)),
+                    metadata=doc.get("metadata", {}),
+                    rank=rank,
+                )
+            )
+        return results
 
 
 class FlashrankReranker:
-    """Lightweight alternative (<5ms). Optional."""
+    """Compatibility wrapper using the same OpenAI reranker."""
+
     def __init__(self):
-        self._model = None
+        self._reranker = CrossEncoderReranker()
 
     def rerank(self, query: str, documents: list[dict], top_k: int = RERANK_TOP_K) -> list[RerankResult]:
-        # TODO (optional): from flashrank import Ranker, RerankRequest
-        # model = Ranker(); passages = [{"text": d["text"]} for d in documents]
-        # results = model.rerank(RerankRequest(query=query, passages=passages))
-        return []
+        return self._reranker.rerank(query, documents, top_k=top_k)
 
 
 def benchmark_reranker(reranker, query: str, documents: list[dict], n_runs: int = 5) -> dict:
-    """Benchmark latency over n_runs."""
-    # TODO: Implement benchmark
-    # 1. times = []
-    # 2. for _ in range(n_runs):
-    #      start = time.perf_counter()
-    #      reranker.rerank(query, documents)
-    #      times.append((time.perf_counter() - start) * 1000)  # ms
-    # 3. return {"avg_ms": mean(times), "min_ms": min(times), "max_ms": max(times)}
-    return {"avg_ms": 0, "min_ms": 0, "max_ms": 0}
+    """Benchmark latency over n runs."""
+    times = []
+    for _ in range(n_runs):
+        start = time.perf_counter()
+        reranker.rerank(query, documents)
+        times.append((time.perf_counter() - start) * 1000)
+    return {
+        "avg_ms": sum(times) / len(times) if times else 0,
+        "min_ms": min(times) if times else 0,
+        "max_ms": max(times) if times else 0,
+    }
 
 
 if __name__ == "__main__":

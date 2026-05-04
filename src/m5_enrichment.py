@@ -1,226 +1,267 @@
 """
 Module 5: Enrichment Pipeline
 ==============================
-Làm giàu chunks TRƯỚC khi embed: Summarize, HyQA, Contextual Prepend, Auto Metadata.
-
-Test: pytest tests/test_m5.py
+OpenAI API enrichment for chunks before indexing.
 """
 
-import os, sys
-from dataclasses import dataclass, field
+import os
+import hashlib
+import json
+import re
+import sys
+from dataclasses import dataclass
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import OPENAI_API_KEY
+from config import DATA_DIR, OPENAI_API_KEY, OPENAI_ENRICH_BATCH_SIZE, OPENAI_MODEL, USE_OPENAI_ENRICHMENT
+from src.progress import ProgressBar
 
 
 @dataclass
 class EnrichedChunk:
-    """Chunk đã được làm giàu."""
     original_text: str
     enriched_text: str
     summary: str
     hypothesis_questions: list[str]
     auto_metadata: dict
-    method: str  # "contextual", "summary", "hyqa", "full"
+    method: str
 
 
-# ─── Technique 1: Chunk Summarization ────────────────────
+def _openai_client():
+    if not OPENAI_API_KEY:
+        raise RuntimeError("OPENAI_API_KEY is required for M5 enrichment.")
+    from openai import OpenAI
+
+    return OpenAI(api_key=OPENAI_API_KEY, timeout=60, max_retries=2)
+
+
+def _chat(messages: list[dict], max_tokens: int = 300, temperature: float = 0.1) -> str:
+    response = _openai_client().chat.completions.create(
+        model=OPENAI_MODEL,
+        messages=messages,
+        temperature=temperature,
+        max_tokens=max_tokens,
+    )
+    return (response.choices[0].message.content or "").strip()
+
+
+def _sentences(text: str) -> list[str]:
+    parts = re.split(r"(?<=[.!?])\s+|\n{2,}", text.strip())
+    return [part.strip() for part in parts if part.strip()]
 
 
 def summarize_chunk(text: str) -> str:
-    """
-    Tạo summary ngắn cho chunk.
-    Embed summary thay vì (hoặc cùng với) raw chunk → giảm noise.
-
-    Args:
-        text: Raw chunk text.
-
-    Returns:
-        Summary string (2-3 câu).
-    """
-    # TODO: Implement chunk summarization
-    # Option A (với OpenAI):
-    #   from openai import OpenAI
-    #   client = OpenAI()
-    #   resp = client.chat.completions.create(
-    #       model="gpt-4o-mini",
-    #       messages=[
-    #           {"role": "system", "content": "Tóm tắt đoạn văn sau trong 2-3 câu ngắn gọn bằng tiếng Việt."},
-    #           {"role": "user", "content": text},
-    #       ],
-    #       max_tokens=150,
-    #   )
-    #   return resp.choices[0].message.content.strip()
-    #
-    # Option B (không cần API — extractive):
-    #   sentences = text.split(". ")
-    #   return ". ".join(sentences[:2]) + "."  # Lấy 2 câu đầu
-    return ""
-
-
-# ─── Technique 2: Hypothesis Question-Answer (HyQA) ─────
+    """Create a short summary with OpenAI."""
+    return _chat(
+        [
+            {
+                "role": "system",
+                "content": "Tóm tắt đoạn văn sau trong 1-2 câu ngắn gọn bằng tiếng Việt. Chỉ trả về phần tóm tắt.",
+            },
+            {"role": "user", "content": text[:4000]},
+        ],
+        max_tokens=140,
+    )
 
 
 def generate_hypothesis_questions(text: str, n_questions: int = 3) -> list[str]:
-    """
-    Generate câu hỏi mà chunk có thể trả lời.
-    Index cả questions lẫn chunk → query match tốt hơn (bridge vocabulary gap).
-
-    Args:
-        text: Raw chunk text.
-        n_questions: Số câu hỏi cần generate.
-
-    Returns:
-        List of question strings.
-    """
-    # TODO: Implement hypothesis question generation
-    # 1. from openai import OpenAI
-    #    client = OpenAI()
-    # 2. resp = client.chat.completions.create(
-    #        model="gpt-4o-mini",
-    #        messages=[
-    #            {"role": "system", "content": f"Dựa trên đoạn văn, tạo {n_questions} câu hỏi mà đoạn văn có thể trả lời. Trả về mỗi câu hỏi trên 1 dòng."},
-    #            {"role": "user", "content": text},
-    #        ],
-    #        max_tokens=200,
-    #    )
-    # 3. questions = resp.choices[0].message.content.strip().split("\n")
-    # 4. return [q.strip().lstrip("0123456789.-) ") for q in questions if q.strip()]
-    #
-    # Tại sao: User hỏi "nghỉ phép bao nhiêu ngày?" nhưng doc viết
-    # "12 ngày làm việc mỗi năm" → vocabulary gap. HyQA bridge gap này
-    # bằng cách index câu hỏi "Nhân viên được nghỉ bao nhiêu ngày?" cùng chunk.
-    return []
-
-
-# ─── Technique 3: Contextual Prepend (Anthropic style) ──
+    """Generate questions a chunk may answer using OpenAI."""
+    live = _chat(
+        [
+            {
+                "role": "system",
+                "content": (
+                    f"Tạo đúng {n_questions} câu hỏi tiếng Việt mà đoạn văn có thể trả lời. "
+                    "Mỗi câu hỏi trên một dòng, không đánh số."
+                ),
+            },
+            {"role": "user", "content": text[:4000]},
+        ],
+        max_tokens=220,
+    )
+    questions = [line.strip().lstrip("-0123456789. )") for line in live.splitlines() if line.strip()]
+    return questions[:n_questions]
 
 
 def contextual_prepend(text: str, document_title: str = "") -> str:
-    """
-    Prepend context giải thích chunk nằm ở đâu trong document.
-    Anthropic benchmark: giảm 49% retrieval failure (alone).
-
-    Args:
-        text: Raw chunk text.
-        document_title: Tên document gốc.
-
-    Returns:
-        Text với context prepended.
-    """
-    # TODO: Implement contextual prepend
-    # 1. from openai import OpenAI
-    #    client = OpenAI()
-    # 2. resp = client.chat.completions.create(
-    #        model="gpt-4o-mini",
-    #        messages=[
-    #            {"role": "system", "content": "Viết 1 câu ngắn mô tả đoạn văn này nằm ở đâu trong tài liệu và nói về chủ đề gì. Chỉ trả về 1 câu."},
-    #            {"role": "user", "content": f"Tài liệu: {document_title}\n\nĐoạn văn:\n{text}"},
-    #        ],
-    #        max_tokens=80,
-    #    )
-    # 3. context = resp.choices[0].message.content.strip()
-    # 4. return f"{context}\n\n{text}"
-    #
-    # Ví dụ output:
-    #   "Trích từ Chương 3 - Chính sách nghỉ phép, Sổ tay VinUni 2024.
-    #    Nhân viên chính thức được nghỉ phép năm 12 ngày..."
-    return text
-
-
-# ─── Technique 4: Auto Metadata Extraction ──────────────
+    """Prepend a short source-aware context sentence while preserving original text."""
+    live = _chat(
+        [
+            {
+                "role": "system",
+                "content": (
+                    "Viết đúng 1 câu ngắn bằng tiếng Việt mô tả đoạn văn nằm trong tài liệu nào "
+                    "và nói về chủ đề gì. Không thêm giải thích."
+                ),
+            },
+            {"role": "user", "content": f"Tài liệu: {document_title or 'tài liệu nguồn'}\n\nĐoạn văn:\n{text[:3500]}"},
+        ],
+        max_tokens=80,
+    )
+    return f"{live}\n\n{text}"
 
 
 def extract_metadata(text: str) -> dict:
-    """
-    LLM extract metadata tự động: topic, entities, date_range, category.
-
-    Args:
-        text: Raw chunk text.
-
-    Returns:
-        Dict with extracted metadata fields.
-    """
-    # TODO: Implement auto metadata extraction
-    # 1. from openai import OpenAI
-    #    import json
-    #    client = OpenAI()
-    # 2. resp = client.chat.completions.create(
-    #        model="gpt-4o-mini",
-    #        messages=[
-    #            {"role": "system", "content": 'Trích xuất metadata từ đoạn văn. Trả về JSON: {"topic": "...", "entities": ["..."], "category": "policy|hr|it|finance", "language": "vi|en"}'},
-    #            {"role": "user", "content": text},
-    #        ],
-    #        max_tokens=150,
-    #    )
-    # 3. return json.loads(resp.choices[0].message.content)
-    #
-    # Metadata này gắn vào chunk → enable rich filtering khi search
-    # VD: filter category="policy" + topic="nghỉ phép" → precision tăng
-    return {}
-
-
-# ─── Full Enrichment Pipeline ────────────────────────────
+    """Extract metadata with OpenAI."""
+    live = _chat(
+        [
+            {
+                "role": "system",
+                "content": (
+                    'Trích xuất metadata từ đoạn văn. Chỉ trả về JSON hợp lệ với schema: '
+                    '{"topic": "string", "entities": ["string"], "category": "policy|finance|general", "language": "vi|en"}.'
+                ),
+            },
+            {"role": "user", "content": text[:4000]},
+        ],
+        max_tokens=180,
+    )
+    start = live.find("{")
+    end = live.rfind("}") + 1
+    parsed = json.loads(live[start:end])
+    if not isinstance(parsed, dict):
+        raise ValueError("OpenAI metadata response was not a JSON object.")
+    parsed.setdefault("entities", [])
+    parsed.setdefault("language", "vi")
+    return parsed
 
 
 def enrich_chunks(
     chunks: list[dict],
     methods: list[str] | None = None,
 ) -> list[EnrichedChunk]:
-    """
-    Chạy enrichment pipeline trên danh sách chunks.
-
-    Args:
-        chunks: List of {"text": str, "metadata": dict}
-        methods: List of methods to apply. Default: ["contextual", "hyqa", "metadata"]
-                 Options: "summary", "hyqa", "contextual", "metadata", "full"
-
-    Returns:
-        List of EnrichedChunk objects.
-    """
+    """Run selected enrichment methods on chunks."""
     if methods is None:
         methods = ["contextual", "hyqa", "metadata"]
 
-    enriched = []
+    if not OPENAI_API_KEY:
+        raise RuntimeError("OPENAI_API_KEY is required for enrich_chunks().")
+    if not USE_OPENAI_ENRICHMENT:
+        raise RuntimeError("USE_OPENAI_ENRICHMENT must be 1 when offline fallback is disabled.")
 
-    # TODO: Implement enrichment pipeline
-    # For each chunk:
-    #   1. summary = summarize_chunk(chunk["text"]) if "summary" in methods or "full" in methods
-    #   2. questions = generate_hypothesis_questions(chunk["text"]) if "hyqa" in methods or "full" in methods
-    #   3. enriched_text = contextual_prepend(chunk["text"], chunk["metadata"].get("source", ""))
-    #      if "contextual" in methods or "full" in methods
-    #   4. auto_meta = extract_metadata(chunk["text"]) if "metadata" in methods or "full" in methods
-    #   5. Create EnrichedChunk(
-    #          original_text=chunk["text"],
-    #          enriched_text=enriched_text or chunk["text"],
-    #          summary=summary or "",
-    #          hypothesis_questions=questions or [],
-    #          auto_metadata={**chunk["metadata"], **auto_meta},
-    #          method="+".join(methods),
-    #      )
-    #
-    # Lưu ý: Enrichment = one-time cost (offline). Dùng model rẻ (gpt-4o-mini).
-    # ROI cao vì cải thiện MỌI query sau đó.
+    return _enrich_batches_with_openai(chunks, methods)
 
+
+def _enrich_batches_with_openai(chunks: list[dict], methods: list[str]) -> list[EnrichedChunk]:
+    """Enrich all chunks through OpenAI in batches to keep API calls practical."""
+    enriched: list[EnrichedChunk] = []
+    total_batches = (len(chunks) + OPENAI_ENRICH_BATCH_SIZE - 1) // OPENAI_ENRICH_BATCH_SIZE
+    progress = ProgressBar("  M5 OpenAI enrichment", total_batches)
+    for start in range(0, len(chunks), OPENAI_ENRICH_BATCH_SIZE):
+        batch = chunks[start : start + OPENAI_ENRICH_BATCH_SIZE]
+        batch_payload = [
+            {
+                "index": start + offset,
+                "source": chunk.get("metadata", {}).get("source", ""),
+                "text": chunk.get("text", "")[:1200],
+            }
+            for offset, chunk in enumerate(batch)
+        ]
+        batch_no = start // OPENAI_ENRICH_BATCH_SIZE + 1
+        cache_path = _batch_cache_path(batch_payload, methods)
+        if os.path.exists(cache_path):
+            progress.update(batch_no - 1, f"batch {batch_no}/{total_batches} cached")
+            with open(cache_path, encoding="utf-8") as f:
+                response_items = json.load(f)
+        else:
+            progress.update(batch_no - 1, f"batch {batch_no}/{total_batches} calling API")
+            response_items = _enrich_batch_with_openai_with_retry(batch_payload, methods, expected_count=len(batch))
+            _write_batch_cache(cache_path, response_items)
+        by_index = {int(item.get("index", -1)): item for item in response_items if "index" in item}
+        for offset, chunk in enumerate(batch):
+            global_index = start + offset
+            item = by_index.get(global_index)
+            if item is None and len(response_items) == len(batch):
+                item = response_items[offset]
+            if item is None:
+                raise ValueError(f"OpenAI enrichment missing chunk index {global_index}")
+            text = chunk.get("text", "")
+            metadata = chunk.get("metadata", {})
+            context = item.get("context", "").strip()
+            enriched_text = f"{context}\n\n{text}" if "contextual" in methods or "full" in methods else text
+            enriched.append(
+                EnrichedChunk(
+                    original_text=text,
+                    enriched_text=enriched_text,
+                    summary=item.get("summary", ""),
+                    hypothesis_questions=item.get("hypothesis_questions", [])[:3],
+                    auto_metadata={**metadata, **item.get("metadata", {})},
+                    method="+".join(methods),
+                )
+            )
+        progress.update(batch_no, f"batch {batch_no}/{total_batches} done")
     return enriched
 
 
-# ─── Main ────────────────────────────────────────────────
+def _batch_cache_path(batch_payload: list[dict], methods: list[str]) -> str:
+    """Return a cache file path for API enrichment output."""
+    cache_root = os.path.join(DATA_DIR, ".openai_enrich_cache")
+    payload = {
+        "version": 1,
+        "model": OPENAI_MODEL,
+        "methods": methods,
+        "chunks": batch_payload,
+    }
+    digest = hashlib.sha256(json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+    return os.path.join(cache_root, f"{digest}.json")
+
+
+def _write_batch_cache(path: str, items: list[dict]) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(items, f, ensure_ascii=False, indent=2)
+
+
+def _enrich_batch_with_openai_with_retry(batch_payload: list[dict], methods: list[str], expected_count: int) -> list[dict]:
+    for attempt in range(1, 4):
+        items = _enrich_batch_with_openai(batch_payload, methods)
+        if len(items) == expected_count:
+            return items
+        print(f"  OpenAI enrichment returned {len(items)}/{expected_count}; retrying batch (attempt {attempt}/3)")
+    raise ValueError("OpenAI enrichment did not return enough items after retries.")
+
+
+def _enrich_batch_with_openai(batch_payload: list[dict], methods: list[str]) -> list[dict]:
+    client = _openai_client()
+    response = client.chat.completions.create(
+        model=OPENAI_MODEL,
+        temperature=0.1,
+        max_tokens=8000,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "Bạn làm enrichment cho RAG tiếng Việt. Chỉ trả về JSON array hợp lệ. "
+                    "Mỗi phần tử giữ nguyên index input và có schema: "
+                    '{"index": number, "summary": "string", "context": "string", '
+                    '"hypothesis_questions": ["string"], '
+                    '"metadata": {"topic": "string", "entities": ["string"], '
+                    '"category": "policy|finance|general", "language": "vi|en"}}. '
+                    "context đúng 1 câu ngắn, questions tối đa 3 câu."
+                ),
+            },
+            {
+                "role": "user",
+                "content": json.dumps(
+                    {"methods": methods, "chunks": batch_payload},
+                    ensure_ascii=False,
+                ),
+            },
+        ],
+    )
+    content = (response.choices[0].message.content or "").strip()
+    start = content.find("[")
+    end = content.rfind("]") + 1
+    parsed = json.loads(content[start:end])
+    if not isinstance(parsed, list):
+        raise ValueError("OpenAI enrichment response was not a JSON array.")
+    return parsed
+
 
 if __name__ == "__main__":
-    sample = "Nhân viên chính thức được nghỉ phép năm 12 ngày làm việc mỗi năm. Số ngày nghỉ phép tăng thêm 1 ngày cho mỗi 5 năm thâm niên công tác."
-
+    sample = "Nhân viên chính thức được nghỉ phép năm 12 ngày làm việc mỗi năm."
     print("=== Enrichment Pipeline Demo ===\n")
     print(f"Original: {sample}\n")
-
-    s = summarize_chunk(sample)
-    print(f"Summary: {s}\n")
-
-    qs = generate_hypothesis_questions(sample)
-    print(f"HyQA questions: {qs}\n")
-
-    ctx = contextual_prepend(sample, "Sổ tay nhân viên VinUni 2024")
-    print(f"Contextual: {ctx}\n")
-
-    meta = extract_metadata(sample)
-    print(f"Auto metadata: {meta}")
+    print(f"Summary: {summarize_chunk(sample)}\n")
+    print(f"HyQA questions: {generate_hypothesis_questions(sample)}\n")
+    print(f"Contextual: {contextual_prepend(sample, 'Sổ tay nhân viên')}\n")
+    print(f"Auto metadata: {extract_metadata(sample)}")

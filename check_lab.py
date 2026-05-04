@@ -9,6 +9,11 @@ import json
 import os
 import sys
 import subprocess
+import re
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
 
 
 def check_file(path: str, required: bool = True) -> bool:
@@ -58,17 +63,19 @@ def run_tests() -> tuple[int, int]:
             [sys.executable, "-m", "pytest", "tests/", "-v", "--tb=no", "-q"],
             capture_output=True, text=True, timeout=120,
         )
-        lines = result.stdout.strip().split("\n")
-        summary = lines[-1] if lines else ""
-        # Parse "X passed, Y failed" or "X passed"
+        output = result.stdout + "\n" + result.stderr
         passed = total = 0
-        for part in summary.split(","):
-            part = part.strip()
-            if "passed" in part:
-                passed = int(part.split()[0])
-                total += passed
-            if "failed" in part:
-                total += int(part.split()[0])
+        summary_matches = re.findall(r"(\d+)\s+(passed|failed|error|errors|skipped|xfailed|xpassed)", output)
+        for count_str, label in summary_matches:
+            count = int(count_str)
+            if label == "passed":
+                passed = count
+            if label in {"passed", "failed", "error", "errors"}:
+                total += count
+        if total == 0:
+            collected = re.search(r"collected\s+(\d+)\s+items?", output)
+            if collected:
+                total = int(collected.group(1))
         return passed, total
     except Exception as e:
         print(f"  ⚠️  pytest error: {e}")

@@ -1,0 +1,208 @@
+{
+  "aggregate": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.6476649236096107,
+    "context_precision": 0.7945990517419089,
+    "context_recall": 0.7686271117758844
+  },
+  "num_questions": 14,
+  "per_question": [
+    {
+      "question": "Nghị định 13/2023/NĐ-CP quy định về vấn đề gì?",
+      "answer": "## Trang 29\n\n```markdown\n# Phụ lục\n(Kèm theo Nghị định số 13/2023/NĐ-CP ngày 17 tháng 4 năm 2023 của Chính phủ)",
+      "contexts": [
+        "## Trang 29\n\n```markdown\n# Phụ lục\n(Kèm theo Nghị định số 13/2023/NĐ-CP ngày 17 tháng 4 năm 2023 của Chính phủ)",
+        "# OCR bằng OpenAI từ Nghi_dinh_so_13-2023_ve_bao_ve_du_lieu_ca_nhan_508ee.pdf\n\n## Trang 1\n\n```markdown\n# CHÍNH PHỦ\n**CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM**  \nĐộc lập - Tự do - Hạnh phúc\n\nSố: 13/2023/NĐ-CP  \nHà Nội, ngày 17 tháng 4 năm 2023\n\n## NGHỊ ĐỊNH  \n**Bảo vệ dữ liệu cá nhân**\n\nCăn cứ Luật Tổ chức Chính phủ ngày 19 tháng 6 năm 2015; Luật sửa đổi, bổ sung một số điều của Luật Tổ chức Chính phủ và Luật Tổ chức chính quyền địa phương ngày 22 tháng 11 năm 2019;",
+        "c) Biện pháp do cơ quan quản lý nhà nước có thẩm quyền thực hiện theo quy định của Nghị định này và pháp luật có liên quan;\n\nd) Biện pháp điều tra, tố tụng do cơ quan nhà nước có thẩm quyền thực hiện;\n\ne) Các biện pháp khác theo quy định của pháp luật.\n\nĐiều 27. Bảo vệ dữ liệu cá nhân cơ bản\n\n1. Áp dụng các biện pháp được quy định tại khoản 2 Điều 26 Nghị định này.\n\n2. Xây dựng, ban hành các quy định về bảo vệ dữ liệu cá nhân, nếu rõ những việc cần thực hiện theo quy định của Nghị định này."
+      ],
+      "ground_truth": "Nghị định 13/2023/NĐ-CP quy định về bảo vệ dữ liệu cá nhân và trách nhiệm bảo vệ dữ liệu cá nhân của cơ quan, tổ chức, cá nhân có liên quan.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.44999999999999996,
+      "context_precision": 0.7,
+      "context_recall": 0.9
+    },
+    {
+      "question": "Dữ liệu cá nhân là gì theo Nghị định 13?",
+      "answer": "i) Dữ liệu về vị trí của cá nhân được xác định qua dịch vụ định vị;\n\nk) Dữ liệu cá nhân khác được pháp luật quy định là đặc thù và cần có biện pháp bảo mật cần thiết.\n\n5. Bảo vệ dữ liệu cá nhân là hoạt động phòng ngừa, phát hiện, ngăn chặn, xử lý hành vi vi phạm liên quan đến dữ liệu cá nhân theo quy định của pháp luật.\n\n6. Chủ thể dữ liệu là cá nhân được dữ liệu cá nhân phản ánh.",
+      "contexts": [
+        "i) Dữ liệu về vị trí của cá nhân được xác định qua dịch vụ định vị;\n\nk) Dữ liệu cá nhân khác được pháp luật quy định là đặc thù và cần có biện pháp bảo mật cần thiết.\n\n5. Bảo vệ dữ liệu cá nhân là hoạt động phòng ngừa, phát hiện, ngăn chặn, xử lý hành vi vi phạm liên quan đến dữ liệu cá nhân theo quy định của pháp luật.\n\n6. Chủ thể dữ liệu là cá nhân được dữ liệu cá nhân phản ánh.",
+        "```markdown\n12. Bên thứ ba là tổ chức, cá nhân ngoài Chủ thể dữ liệu, Bên Kiểm soát dữ liệu cá nhân, Bên Xử lý dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân được phép xử lý dữ liệu cá nhân.\n\n13. Xử lý dữ liệu cá nhân tự động là hình thức xử lý dữ liệu cá nhân được thực hiện bằng phương tiện điện tử nhằm đánh giá, phân tích, dự đoán hoạt động của một con người cụ thể, như: thói quen, sở thích, mức độ tin cậy, hành vi, địa điểm, xu hướng, năng lực và các trường hợp khác.",
+        "3. Thông báo cho chủ thể dữ liệu biết việc dữ liệu cá nhân nhạy cảm của chủ thể dữ liệu được xử lý, trừ trường hợp quy định tại khoản 4 Điều 13, Điều 17 và Điều 18 Nghị định này.\n```\n\n## Trang 23\n\n```markdown\n# Điều 29. Cơ quan chuyển trách bảo vệ dữ liệu cá nhân và Công thông tin quốc gia về bảo vệ dữ liệu cá nhân"
+      ],
+      "ground_truth": "Dữ liệu cá nhân là thông tin dưới dạng ký hiệu, chữ viết, chữ số, hình ảnh, âm thanh hoặc dạng tương tự trên môi trường điện tử gắn liền với một con người cụ thể hoặc giúp xác định một con người cụ thể.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.43333333333333335,
+      "context_precision": 0.8888888888888888,
+      "context_recall": 0.4857142857142857
+    },
+    {
+      "question": "Dữ liệu cá nhân cơ bản bao gồm những thông tin nào?",
+      "answer": "c) Cập nhật thông tin, tình hình bảo vệ dữ liệu cá nhân;\n\nd) Tiếp nhận thông tin, hồ sơ, dữ liệu về hoạt động bảo vệ dữ liệu cá nhân qua không gian mạng;\n\ne) Cung cấp thông tin về kết quả đánh giá công tác bảo vệ dữ liệu cá nhân của cơ quan, tổ chức, cá nhân có liên quan;\n\nf) Tiếp nhận thông báo về phạm quy định về bảo vệ dữ liệu cá nhân;\n\ng) Cảnh báo, phối hợp cảnh báo về nguy cơ, hành vi xâm phạm dữ liệu cá nhân theo quy định của pháp luật;",
+      "contexts": [
+        "c) Cập nhật thông tin, tình hình bảo vệ dữ liệu cá nhân;\n\nd) Tiếp nhận thông tin, hồ sơ, dữ liệu về hoạt động bảo vệ dữ liệu cá nhân qua không gian mạng;\n\ne) Cung cấp thông tin về kết quả đánh giá công tác bảo vệ dữ liệu cá nhân của cơ quan, tổ chức, cá nhân có liên quan;\n\nf) Tiếp nhận thông báo về phạm quy định về bảo vệ dữ liệu cá nhân;\n\ng) Cảnh báo, phối hợp cảnh báo về nguy cơ, hành vi xâm phạm dữ liệu cá nhân theo quy định của pháp luật;",
+        "a) Thông tin và chi tiết liên lạc của Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân;\n\nb) Họ tên, chi tiết liên lạc của tổ chức được phân công thực hiện nhiệm vụ bảo vệ dữ liệu cá nhân và nhân viên bảo vệ dữ liệu cá nhân của Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân;\n\nc) Mục đích xử lý dữ liệu cá nhân;\n\nd) Các loại dữ liệu cá nhân được xử lý;\n\ne) Tổ chức, cá nhân nhận dữ liệu cá nhân, bao gồm tổ chức, cá nhân ngoài lãnh thổ Việt Nam;",
+        "2. Bên Xử lý dữ liệu cá nhân phải thông báo cho Bên Kiểm soát dữ liệu cá nhân một cách nhanh nhất có thể sau khi nhận thấy có sự vi phạm quy định về bảo vệ dữ liệu cá nhân.\n\n3. Nội dung thông báo vi phạm quy định về bảo vệ dữ liệu cá nhân:\n\na) Mô tả tính chất của việc vi phạm quy định bảo vệ dữ liệu cá nhân, bao gồm: thời gian, địa điểm, hành vi, tổ chức, cá nhân, các loại dữ liệu cá nhân và số lượng dữ liệu liên quan;"
+      ],
+      "ground_truth": "Dữ liệu cá nhân cơ bản bao gồm các thông tin như họ tên, ngày tháng năm sinh, giới tính, nơi sinh, nơi thường trú, quốc tịch, hình ảnh cá nhân, số điện thoại, số định danh cá nhân và các thông tin định danh khác.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.4588068181818182,
+      "context_precision": 0.8181818181818182,
+      "context_recall": 0.46875
+    },
+    {
+      "question": "Dữ liệu cá nhân nhạy cảm là gì?",
+      "answer": "5. Sự đồng ý của chủ thể dữ liệu phải được thể hiện ở một định dạng có thể được in, sao chép bằng văn bản, bao gồm cả dưới dạng điện tử hoặc định dạng kiểm chứng được.\n\n6. Sự im lặng hoặc không phản hồi của chủ thể dữ liệu không được coi là sự đồng ý.\n\n7. Chủ thể dữ liệu có thể đồng ý một phần hoặc vối điều kiện kèm theo.\n\n8. Đối với xử lý dữ liệu cá nhân nhạy cảm, chủ thể dữ liệu phải được thông báo rằng dữ liệu cần sự đồng ý là dữ liệu cá nhân nhạy cảm.",
+      "contexts": [
+        "5. Sự đồng ý của chủ thể dữ liệu phải được thể hiện ở một định dạng có thể được in, sao chép bằng văn bản, bao gồm cả dưới dạng điện tử hoặc định dạng kiểm chứng được.\n\n6. Sự im lặng hoặc không phản hồi của chủ thể dữ liệu không được coi là sự đồng ý.\n\n7. Chủ thể dữ liệu có thể đồng ý một phần hoặc vối điều kiện kèm theo.\n\n8. Đối với xử lý dữ liệu cá nhân nhạy cảm, chủ thể dữ liệu phải được thông báo rằng dữ liệu cần sự đồng ý là dữ liệu cá nhân nhạy cảm.",
+        "3. Thông báo cho chủ thể dữ liệu biết việc dữ liệu cá nhân nhạy cảm của chủ thể dữ liệu được xử lý, trừ trường hợp quy định tại khoản 4 Điều 13, Điều 17 và Điều 18 Nghị định này.\n```\n\n## Trang 23\n\n```markdown\n# Điều 29. Cơ quan chuyển trách bảo vệ dữ liệu cá nhân và Công thông tin quốc gia về bảo vệ dữ liệu cá nhân",
+        "i) Dữ liệu về vị trí của cá nhân được xác định qua dịch vụ định vị;\n\nk) Dữ liệu cá nhân khác được pháp luật quy định là đặc thù và cần có biện pháp bảo mật cần thiết.\n\n5. Bảo vệ dữ liệu cá nhân là hoạt động phòng ngừa, phát hiện, ngăn chặn, xử lý hành vi vi phạm liên quan đến dữ liệu cá nhân theo quy định của pháp luật.\n\n6. Chủ thể dữ liệu là cá nhân được dữ liệu cá nhân phản ánh."
+      ],
+      "ground_truth": "Dữ liệu cá nhân nhạy cảm là dữ liệu cá nhân gắn liền với quyền riêng tư của cá nhân mà khi bị xâm phạm sẽ gây ảnh hưởng trực tiếp tới quyền và lợi ích hợp pháp của cá nhân.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.5535714285714286,
+      "context_precision": 0.8571428571428571,
+      "context_recall": 0.35714285714285715
+    },
+    {
+      "question": "Sự đồng ý của chủ thể dữ liệu là gì?",
+      "answer": "5. Sự đồng ý của chủ thể dữ liệu phải được thể hiện ở một định dạng có thể được in, sao chép bằng văn bản, bao gồm cả dưới dạng điện tử hoặc định dạng kiểm chứng được.\n\n6. Sự im lặng hoặc không phản hồi của chủ thể dữ liệu không được coi là sự đồng ý.\n\n7. Chủ thể dữ liệu có thể đồng ý một phần hoặc vối điều kiện kèm theo.\n\n8. Đối với xử lý dữ liệu cá nhân nhạy cảm, chủ thể dữ liệu phải được thông báo rằng dữ liệu cần sự đồng ý là dữ liệu cá nhân nhạy cảm.",
+      "contexts": [
+        "5. Sự đồng ý của chủ thể dữ liệu phải được thể hiện ở một định dạng có thể được in, sao chép bằng văn bản, bao gồm cả dưới dạng điện tử hoặc định dạng kiểm chứng được.\n\n6. Sự im lặng hoặc không phản hồi của chủ thể dữ liệu không được coi là sự đồng ý.\n\n7. Chủ thể dữ liệu có thể đồng ý một phần hoặc vối điều kiện kèm theo.\n\n8. Đối với xử lý dữ liệu cá nhân nhạy cảm, chủ thể dữ liệu phải được thông báo rằng dữ liệu cần sự đồng ý là dữ liệu cá nhân nhạy cảm.",
+        "## Trang 9\n\n```markdown\n# Mục 2\n## BẢO VỆ DỮ LIỆU CÁ NHÂN TRONG QUÁ TRÌNH XỬ LÝ DỮ LIỆU CÁ NHÂN\n\n### Điều 11. Sự đồng ý của chủ thể dữ liệu\n\n1. Sự đồng ý của chủ thể dữ liệu được áp dụng đối với tất cả các hoạt động trong quy trình xử lý dữ liệu cá nhân, trừ trường hợp luật có quy định khác.",
+        "3. Sự đồng ý của chủ thể dữ liệu phải được thể hiện rõ ràng, cụ thể bằng văn bản, giọng nói, đánh dấu vào ô đồng ý, cú pháp đồng ý qua tin nhắn, chọn các thiết lập kỹ thuật đồng ý hoặc một hành động thể hiện được điều này.\n\n4. Sự đồng ý phải được tiến hành cho cùng mục đích. Khi có nhiều mục đích, Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân liệt kê các mục đích để chủ thể dữ liệu đồng ý với một hoặc nhiều mục đích nêu ra."
+      ],
+      "ground_truth": "Sự đồng ý của chủ thể dữ liệu là việc thể hiện rõ ràng, tự nguyện, khẳng định việc cho phép xử lý dữ liệu cá nhân của chủ thể dữ liệu.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.744360902255639,
+      "context_precision": 0.8571428571428571,
+      "context_recall": 0.7368421052631579
+    },
+    {
+      "question": "Bên kiểm soát dữ liệu cá nhân là gì?",
+      "answer": "9. Bên Kiểm soát dữ liệu cá nhân là tổ chức, cá nhân quyết định mục đích và phương tiện xử lý dữ liệu cá nhân.\n\n10. Bên Xử lý dữ liệu cá nhân là tổ chức, cá nhân thực hiện việc xử lý dữ liệu thay mặt cho Bên Kiểm soát dữ liệu, thông qua một hợp đồng hoặc thỏa thuận với Bên Kiểm soát dữ liệu.\n\n11. Bên Kiểm soát và xử lý dữ liệu cá nhân là tổ chức, cá nhân đồng thời quyết định mục đích, phương tiện và trực tiếp xử lý dữ liệu cá nhân.\n```\n\n## Trang 4",
+      "contexts": [
+        "9. Bên Kiểm soát dữ liệu cá nhân là tổ chức, cá nhân quyết định mục đích và phương tiện xử lý dữ liệu cá nhân.\n\n10. Bên Xử lý dữ liệu cá nhân là tổ chức, cá nhân thực hiện việc xử lý dữ liệu thay mặt cho Bên Kiểm soát dữ liệu, thông qua một hợp đồng hoặc thỏa thuận với Bên Kiểm soát dữ liệu.\n\n11. Bên Kiểm soát và xử lý dữ liệu cá nhân là tổ chức, cá nhân đồng thời quyết định mục đích, phương tiện và trực tiếp xử lý dữ liệu cá nhân.\n```\n\n## Trang 4",
+        "1. Chủ thể dữ liệu được yêu cầu Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân cung cấp bản thân dữ liệu cá nhân của mình.\n\n2. Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân:\n\na) Được cung cấp dữ liệu cá nhân của chủ thể dữ liệu cho tổ chức, cá nhân khác khi có sự đồng ý của chủ thể dữ liệu, trừ trường hợp pháp luật có quy định khác;",
+        "5. Việc xóa dữ liệu được thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu với toàn bộ dữ liệu cá nhân mà Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân thu thập được, trừ trường hợp pháp luật có quy định khác.\n\n6. Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân, Bên Xử lý dữ liệu cá nhân, Bên thứ ba lưu trữ dữ liệu cá nhân theo hình thức phù hợp với hoạt động của mình và có biện pháp bảo vệ dữ liệu cá nhân theo quy định của pháp luật."
+      ],
+      "ground_truth": "Bên kiểm soát dữ liệu cá nhân là tổ chức, cá nhân quyết định mục đích và phương tiện xử lý dữ liệu cá nhân.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9375,
+      "context_precision": 0.875,
+      "context_recall": 1.0
+    },
+    {
+      "question": "Điều 9 quy định chủ thể dữ liệu có những quyền nào?",
+      "answer": "4. Cản trở hoạt động bảo vệ dữ liệu cá nhân của cơ quan có thẩm quyền.\n\n5. Lợi dụng hoạt động bảo vệ dữ liệu cá nhân để vi phạm pháp luật.\n```\n\n## Trang 7\n\n```markdown\n# Chương II\n## HOẠT ĐỘNG BẢO VỆ DỮ LIỆU CÁ NHÂN\n\n### Mục 1\n## QUYỀN VÀ NGHĨA VỤ CỦA CHỦ THỂ DỮ LIỆU\n\n### Điều 9. Quyền của chủ thể dữ liệu\n\n1. **Quyền được biết**  \n   Chủ thể dữ liệu được biết về hoạt động xử lý dữ liệu cá nhân của mình, trừ trường hợp luật có quy định khác.",
+      "contexts": [
+        "4. Cản trở hoạt động bảo vệ dữ liệu cá nhân của cơ quan có thẩm quyền.\n\n5. Lợi dụng hoạt động bảo vệ dữ liệu cá nhân để vi phạm pháp luật.\n```\n\n## Trang 7\n\n```markdown\n# Chương II\n## HOẠT ĐỘNG BẢO VỆ DỮ LIỆU CÁ NHÂN\n\n### Mục 1\n## QUYỀN VÀ NGHĨA VỤ CỦA CHỦ THỂ DỮ LIỆU\n\n### Điều 9. Quyền của chủ thể dữ liệu\n\n1. **Quyền được biết**  \n   Chủ thể dữ liệu được biết về hoạt động xử lý dữ liệu cá nhân của mình, trừ trường hợp luật có quy định khác.",
+        "```markdown\n11. Thông qua việc ủy quyền theo quy định của Bộ luật Dân sự, tổ chức, cá nhân có thể thay mặt chủ thể dữ liệu thực hiện các thủ tục liên quan tới xử lý dữ liệu cá nhân của chủ thể dữ liệu với Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân trong trường hợp chủ thể dữ liệu đã biết rõ và đồng ý theo quy định tại khoản 3 Điều này, trừ trường hợp luật có quy định khác.\n\n## Điều 12. Rút lại sự đồng ý",
+        "b) Thay mặt chủ thể dữ liệu cung cấp dữ liệu cá nhân của chủ thể dữ liệu cho tổ chức khác cá nhân khác khi chủ thể dữ liệu đồng ý cho phép đại diện và ủy quyền, trừ trường hợp pháp luật có quy định khác.\n\n3. Việc cung cấp dữ liệu cá nhân của chủ thể dữ liệu được Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu, trừ trường hợp pháp luật có quy định khác."
+      ],
+      "ground_truth": "Điều 9 quy định các quyền của chủ thể dữ liệu như quyền được biết, quyền đồng ý, quyền truy cập, quyền rút lại sự đồng ý, quyền xóa dữ liệu, quyền hạn chế xử lý dữ liệu, quyền cung cấp dữ liệu, quyền phản đối xử lý dữ liệu, quyền khiếu nại, tố cáo, khởi kiện, quyền yêu cầu bồi thường thiệt hại và quyền tự bảo vệ.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.6069444444444444,
+      "context_precision": 0.8888888888888888,
+      "context_recall": 0.525
+    },
+    {
+      "question": "Việc hạn chế xử lý dữ liệu được thực hiện trong bao lâu sau khi có yêu cầu?",
+      "answer": "5. **Quyền xóa dữ liệu**  \n   Chủ thể dữ liệu được xóa hoặc yêu cầu xóa dữ liệu cá nhân của mình, trừ trường hợp luật có quy định khác.\n\n6. **Quyền hạn chế xử lý dữ liệu**  \n   a) Chủ thể dữ liệu được yêu cầu hạn chế xử lý dữ liệu cá nhân của mình, trừ trường hợp luật có quy định khác;  \n   b) Việc hạn chế xử lý dữ liệu được thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu, với toàn bộ dữ liệu cá nhân mà chủ thể dữ liệu yêu cầu hạn chế, trừ trường hợp luật có quy định khác.",
+      "contexts": [
+        "5. **Quyền xóa dữ liệu**  \n   Chủ thể dữ liệu được xóa hoặc yêu cầu xóa dữ liệu cá nhân của mình, trừ trường hợp luật có quy định khác.\n\n6. **Quyền hạn chế xử lý dữ liệu**  \n   a) Chủ thể dữ liệu được yêu cầu hạn chế xử lý dữ liệu cá nhân của mình, trừ trường hợp luật có quy định khác;  \n   b) Việc hạn chế xử lý dữ liệu được thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu, với toàn bộ dữ liệu cá nhân mà chủ thể dữ liệu yêu cầu hạn chế, trừ trường hợp luật có quy định khác.",
+        "```markdown\n8. Quyền phân đối xử lý dữ liệu\n   a) Chủ thể dữ liệu được phân đối Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân xử lý dữ liệu cá nhân của mình nhằm ngăn chặn hoặc hạn chế tiết lộ dữ liệu cá nhân hoặc sử dụng cho mục đích quảng cáo, tiếp thị, trừ trường hợp luật có quy định khác;\n   b) Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân thực hiện yêu cầu của chủ thể dữ liệu trong 72 giờ sau khi nhận được yêu cầu, trừ trường hợp luật có quy định khác.",
+        "Khi nhận được yêu cầu cung cấp dữ liệu cá nhân hợp lệ, Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân có trách nhiệm cung cấp dữ liệu cá nhân thông báo về thời hạn, địa điểm, hình thức cung cấp dữ liệu cá nhân; chi phí thực tế để in, sao, chụp, gửi thông tin qua dịch vụ bưu chính.\n```\n\n## Trang 13\n\n```markdown\n# 13\n\nfax (nếu có) và phương thức, thời hạn thanh toán; thực hiện việc cung cấp dữ liệu cá nhân theo trình tự, thủ tục quy định tại Điều này."
+      ],
+      "ground_truth": "Việc hạn chế xử lý dữ liệu được thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu, trừ trường hợp luật có quy định khác.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9333333333333333,
+      "context_precision": 0.8666666666666667,
+      "context_recall": 1.0
+    },
+    {
+      "question": "Chuyển dữ liệu cá nhân ra nước ngoài theo Điều 25 cần lập hồ sơ gì?",
+      "answer": "1. Dữ liệu cá nhân của công dân Việt Nam được chuyển ra nước ngoài trong trường hợp Bên chuyển dữ liệu ra nước ngoài lập Hồ sơ đánh giá tác động chuyển dữ liệu cá nhân ra nước ngoài và thực hiện các thủ tục theo quy định tại khoản 3, 4 và 5 Điều này. Bên chuyển dữ liệu ra nước ngoài bao gồm Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân, Bên thứ ba.\n\n2. Hồ sơ đánh giá tác động chuyển dữ liệu cá nhân ra nước ngoài, gồm:",
+      "contexts": [
+        "1. Dữ liệu cá nhân của công dân Việt Nam được chuyển ra nước ngoài trong trường hợp Bên chuyển dữ liệu ra nước ngoài lập Hồ sơ đánh giá tác động chuyển dữ liệu cá nhân ra nước ngoài và thực hiện các thủ tục theo quy định tại khoản 3, 4 và 5 Điều này. Bên chuyển dữ liệu ra nước ngoài bao gồm Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân, Bên thứ ba.\n\n2. Hồ sơ đánh giá tác động chuyển dữ liệu cá nhân ra nước ngoài, gồm:",
+        "6. Bên chuyển dữ liệu ra nước ngoài cập nhật, bổ sung Hồ sơ đánh giá tác động chuyển dữ liệu cá nhân ra nước ngoài khi có sự thay đổi về nội dung hồ sơ đã gửi cho Bộ Công an (Cục An ninh mạng và phòng, chống tội phạm sử dụng công nghệ cao) theo Mẫu số 05 tại Phụ lục của Nghị định này. Thời gian hoàn thiện hồ sơ dành cho Bên chuyển dữ liệu ra nước ngoài là 10 ngày kể từ ngày yêu cầu.",
+        "6. Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân, Bên Xử lý dữ liệu cá nhân cập nhật, bổ sung Hồ sơ đánh giá tác động xử lý dữ liệu cá nhân khi có sự thay đổi về nội dung hồ sơ đã gửi cho Bộ Công an (Cục An ninh mạng và phòng, chống tội phạm sử dụng công nghệ cao) theo Mẫu số 05 tại Phụ lục của Nghị định này.\n\nĐiều 25. Chuyển dữ liệu cá nhân ra nước ngoài"
+      ],
+      "ground_truth": "Bên chuyển dữ liệu ra nước ngoài cần lập Hồ sơ đánh giá tác động chuyển dữ liệu cá nhân ra nước ngoài.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8768382352941176,
+      "context_precision": 0.875,
+      "context_recall": 0.9411764705882353
+    },
+    {
+      "question": "Tên người nộp thuế trong tờ khai thuế GTGT là gì?",
+      "answer": "```markdown\n4.1 Thuế giá trị gia tăng đề nghị hoàn (142) ≤ (411) [42] 0  \n4.2 Thuế giá trị gia tăng còn được khấu trừ chuyển kỳ sau (143)=(41)+(42) [43] 0\n\nTôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai/...\n\nNgày 24 tháng 01 năm 2025\n\nNHÂN VIÊN ĐẠI LÝ THUẾ  \nHọ và tên:  \nChức chỉ hành nghề số:\n\nNGƯỜI NỘP THUẾ hoặc  \nĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ  \n(Chữ ký, ghi rõ họ tên; chức vụ và đóng dấu (nếu có)/Xác nhận)\n\nTRỊNH THỊ SANG",
+      "contexts": [
+        "```markdown\n4.1 Thuế giá trị gia tăng đề nghị hoàn (142) ≤ (411) [42] 0  \n4.2 Thuế giá trị gia tăng còn được khấu trừ chuyển kỳ sau (143)=(41)+(42) [43] 0\n\nTôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai/...\n\nNgày 24 tháng 01 năm 2025\n\nNHÂN VIÊN ĐẠI LÝ THUẾ  \nHọ và tên:  \nChức chỉ hành nghề số:\n\nNGƯỜI NỘP THUẾ hoặc  \nĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ  \n(Chữ ký, ghi rõ họ tên; chức vụ và đóng dấu (nếu có)/Xác nhận)\n\nTRỊNH THỊ SANG",
+        "## III. Xác định nghĩa vụ thuế giá trị gia tăng phải nộp trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp của hoạt động sản xuất kinh doanh trong kỳ | 52.133.830 |\n| 2   | Thuế giá trị gia tăng mua của doanh nghiệp đã trừ với thuế GTGT cần phải nộp của hoạt động sản xuất kinh doanh chung kỳ | 52.133.830 |\n```\n\n## Trang 2",
+        "| STT | Chỉ tiêu | Giá trị ghi nhận, dịch vụ (chưa có thuế giá trị gia tăng) | Thuế giá trị gia tăng |\n|-----|----------|-----------------------------------------------------------|-----------------------|\n| 01  | Tên người nộp thuế: CÔNG TY CỔ PHẦN DHA SURFACES | Ngày: |                       |\n| 02  | Mã số thuế: 0106769437 | |                       |\n| 03  | Tên gọi: | Hợp đồng dự kiến: |                       |\n| 04  | Địa chỉ: | Huyện/Quận: |                       |\n| 05  | Phương/xã: | |                       |\n| 06  | Tỉnh/Thành phố: | Đơn vị tính: đồng Việt Nam |                       |"
+      ],
+      "ground_truth": "Tên người nộp thuế là CÔNG TY CỔ PHẦN DHA SURFACES.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.5125,
+      "context_precision": 0.75,
+      "context_recall": 1.0
+    },
+    {
+      "question": "Mã số thuế của người nộp thuế trong tờ khai là bao nhiêu?",
+      "answer": "```markdown\n4.1 Thuế giá trị gia tăng đề nghị hoàn (142) ≤ (411) [42] 0  \n4.2 Thuế giá trị gia tăng còn được khấu trừ chuyển kỳ sau (143)=(41)+(42) [43] 0\n\nTôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai/...\n\nNgày 24 tháng 01 năm 2025\n\nNHÂN VIÊN ĐẠI LÝ THUẾ  \nHọ và tên:  \nChức chỉ hành nghề số:\n\nNGƯỜI NỘP THUẾ hoặc  \nĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ  \n(Chữ ký, ghi rõ họ tên; chức vụ và đóng dấu (nếu có)/Xác nhận)\n\nTRỊNH THỊ SANG",
+      "contexts": [
+        "```markdown\n4.1 Thuế giá trị gia tăng đề nghị hoàn (142) ≤ (411) [42] 0  \n4.2 Thuế giá trị gia tăng còn được khấu trừ chuyển kỳ sau (143)=(41)+(42) [43] 0\n\nTôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai/...\n\nNgày 24 tháng 01 năm 2025\n\nNHÂN VIÊN ĐẠI LÝ THUẾ  \nHọ và tên:  \nChức chỉ hành nghề số:\n\nNGƯỜI NỘP THUẾ hoặc  \nĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ  \n(Chữ ký, ghi rõ họ tên; chức vụ và đóng dấu (nếu có)/Xác nhận)\n\nTRỊNH THỊ SANG",
+        "| STT | Chỉ tiêu | Giá trị ghi nhận, dịch vụ (chưa có thuế giá trị gia tăng) | Thuế giá trị gia tăng |\n|-----|----------|-----------------------------------------------------------|-----------------------|\n| 01  | Tên người nộp thuế: CÔNG TY CỔ PHẦN DHA SURFACES | Ngày: |                       |\n| 02  | Mã số thuế: 0106769437 | |                       |\n| 03  | Tên gọi: | Hợp đồng dự kiến: |                       |\n| 04  | Địa chỉ: | Huyện/Quận: |                       |\n| 05  | Phương/xã: | |                       |\n| 06  | Tỉnh/Thành phố: | Đơn vị tính: đồng Việt Nam |                       |",
+        "## III. Xác định nghĩa vụ thuế giá trị gia tăng phải nộp trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp của hoạt động sản xuất kinh doanh trong kỳ | 52.133.830 |\n| 2   | Thuế giá trị gia tăng mua của doanh nghiệp đã trừ với thuế GTGT cần phải nộp của hoạt động sản xuất kinh doanh chung kỳ | 52.133.830 |\n```\n\n## Trang 2"
+      ],
+      "ground_truth": "Mã số thuế của người nộp thuế là 0106769437.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.6111111111111112,
+      "context_precision": 0.6666666666666666,
+      "context_recall": 1.0
+    },
+    {
+      "question": "Kỳ tính thuế trong tờ khai GTGT là thời gian nào?",
+      "answer": "## III. Xác định nghĩa vụ thuế giá trị gia tăng phải nộp trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp của hoạt động sản xuất kinh doanh trong kỳ | 52.133.830 |\n| 2   | Thuế giá trị gia tăng mua của doanh nghiệp đã trừ với thuế GTGT cần phải nộp của hoạt động sản xuất kinh doanh chung kỳ | 52.133.830 |\n```\n\n## Trang 2",
+      "contexts": [
+        "## III. Xác định nghĩa vụ thuế giá trị gia tăng phải nộp trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp của hoạt động sản xuất kinh doanh trong kỳ | 52.133.830 |\n| 2   | Thuế giá trị gia tăng mua của doanh nghiệp đã trừ với thuế GTGT cần phải nộp của hoạt động sản xuất kinh doanh chung kỳ | 52.133.830 |\n```\n\n## Trang 2",
+        "```markdown\n4.1 Thuế giá trị gia tăng đề nghị hoàn (142) ≤ (411) [42] 0  \n4.2 Thuế giá trị gia tăng còn được khấu trừ chuyển kỳ sau (143)=(41)+(42) [43] 0\n\nTôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai/...\n\nNgày 24 tháng 01 năm 2025\n\nNHÂN VIÊN ĐẠI LÝ THUẾ  \nHọ và tên:  \nChức chỉ hành nghề số:\n\nNGƯỜI NỘP THUẾ hoặc  \nĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ  \n(Chữ ký, ghi rõ họ tên; chức vụ và đóng dấu (nếu có)/Xác nhận)\n\nTRỊNH THỊ SANG",
+        "## II. Thuế giá trị gia tăng phát sinh trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp trong kỳ | 52.133.830 |\n| 2   | Điều chỉnh giảm | 0 |\n| 3   | Điều chỉnh tăng | 0 |"
+      ],
+      "ground_truth": "Kỳ tính thuế trong tờ khai là Quý 4 năm 2024.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.29166666666666663,
+      "context_precision": 0.4444444444444444,
+      "context_recall": 0.5
+    },
+    {
+      "question": "Giá trị hàng hóa, dịch vụ mua vào trong kỳ là bao nhiêu?",
+      "answer": "## I. Hàng hóa, dịch vụ mua vào\n| STT | Hàng hóa, dịch vụ | Giá trị hàng hóa, dịch vụ mua vào | Thuế giá trị gia tăng |\n|-----|-------------------|-----------------------------------|-----------------------|\n| 1   | Hàng hóa, dịch vụ bán trong kỳ (đánh dấu “X”) | 2.405.743.401 | 215.163.767 |\n| 2   | Thuế giá trị gia tăng được khấu trừ trước chuyển sang | 77.377.803 | 0 |\n| 3   | Tổng doanh thu và thuế giá trị gia tăng hàng hóa, dịch vụ bán ra | 3.703.688.610 | 344.675.400 |",
+      "contexts": [
+        "## I. Hàng hóa, dịch vụ mua vào\n| STT | Hàng hóa, dịch vụ | Giá trị hàng hóa, dịch vụ mua vào | Thuế giá trị gia tăng |\n|-----|-------------------|-----------------------------------|-----------------------|\n| 1   | Hàng hóa, dịch vụ bán trong kỳ (đánh dấu “X”) | 2.405.743.401 | 215.163.767 |\n| 2   | Thuế giá trị gia tăng được khấu trừ trước chuyển sang | 77.377.803 | 0 |\n| 3   | Tổng doanh thu và thuế giá trị gia tăng hàng hóa, dịch vụ bán ra | 3.703.688.610 | 344.675.400 |",
+        "## III. Xác định nghĩa vụ thuế giá trị gia tăng phải nộp trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp của hoạt động sản xuất kinh doanh trong kỳ | 52.133.830 |\n| 2   | Thuế giá trị gia tăng mua của doanh nghiệp đã trừ với thuế GTGT cần phải nộp của hoạt động sản xuất kinh doanh chung kỳ | 52.133.830 |\n```\n\n## Trang 2",
+        "## II. Thuế giá trị gia tăng phát sinh trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp trong kỳ | 52.133.830 |\n| 2   | Điều chỉnh giảm | 0 |\n| 3   | Điều chỉnh tăng | 0 |"
+      ],
+      "ground_truth": "Giá trị hàng hóa, dịch vụ mua vào trong kỳ là 2.405.743.401 đồng.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8706293706293706,
+      "context_precision": 0.8181818181818182,
+      "context_recall": 0.9230769230769231
+    },
+    {
+      "question": "Thuế giá trị gia tăng còn phải nộp trong kỳ là bao nhiêu?",
+      "answer": "## III. Xác định nghĩa vụ thuế giá trị gia tăng phải nộp trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp của hoạt động sản xuất kinh doanh trong kỳ | 52.133.830 |\n| 2   | Thuế giá trị gia tăng mua của doanh nghiệp đã trừ với thuế GTGT cần phải nộp của hoạt động sản xuất kinh doanh chung kỳ | 52.133.830 |\n```\n\n## Trang 2",
+      "contexts": [
+        "## III. Xác định nghĩa vụ thuế giá trị gia tăng phải nộp trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp của hoạt động sản xuất kinh doanh trong kỳ | 52.133.830 |\n| 2   | Thuế giá trị gia tăng mua của doanh nghiệp đã trừ với thuế GTGT cần phải nộp của hoạt động sản xuất kinh doanh chung kỳ | 52.133.830 |\n```\n\n## Trang 2",
+        "## II. Thuế giá trị gia tăng phát sinh trong kỳ\n| STT | Chỉ tiêu | Giá trị |\n|-----|----------|---------|\n| 1   | Thuế giá trị gia tăng phải nộp trong kỳ | 52.133.830 |\n| 2   | Điều chỉnh giảm | 0 |\n| 3   | Điều chỉnh tăng | 0 |",
+        "```markdown\n4.1 Thuế giá trị gia tăng đề nghị hoàn (142) ≤ (411) [42] 0  \n4.2 Thuế giá trị gia tăng còn được khấu trừ chuyển kỳ sau (143)=(41)+(42) [43] 0\n\nTôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về số liệu đã khai/...\n\nNgày 24 tháng 01 năm 2025\n\nNHÂN VIÊN ĐẠI LÝ THUẾ  \nHọ và tên:  \nChức chỉ hành nghề số:\n\nNGƯỜI NỘP THUẾ hoặc  \nĐẠI DIỆN HỢP PHÁP CỦA NGƯỜI NỘP THUẾ  \n(Chữ ký, ghi rõ họ tên; chức vụ và đóng dấu (nếu có)/Xác nhận)\n\nTRỊNH THỊ SANG"
+      ],
+      "ground_truth": "Thuế giá trị gia tăng còn phải nộp trong kỳ là 52.133.830 đồng.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7867132867132867,
+      "context_precision": 0.8181818181818182,
+      "context_recall": 0.9230769230769231
+    }
+  ],
+  "failures": []
+}
