@@ -1,0 +1,7 @@
+openai
+pypdfium2
+python-dotenv
+rank-bm25
+underthesea
+pytest
+ruff
